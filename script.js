@@ -30,3 +30,30 @@ parentFunction();
 //When JSEngine does not find the reference to variable inside its scope it goes one level up i.e to its Lexical parent and this goes on until the reference is located.
 
 //Lexical environment - location of a function or a variable, where its physically present inside the code.
+
+//CLOSURES : function + its lexical scope
+const xyz = () => {
+  console.log(name);
+  const abc = () => {
+    const pqr = () => {
+      const name = "chaitanya.................................";
+      console.log("name");
+    };
+    pqr();
+  };
+  abc();
+};
+
+xyz();
+
+///CUrrying
+const add = (a) => {
+  const b = (b) => {
+    const c = (c) => {
+      return a + b + c;
+    };
+    return c;
+  };
+  return b;
+};
+console.log(add(1)(2)(3));
