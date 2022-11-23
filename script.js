@@ -1,28 +1,32 @@
-//Hoisting - variables can be used before they are declared.
+//Closures
 
-//ERROR : Uncaught ReferenceError: Cannot access 'a' before initialization
-console.log(a);
-const a = 20;
+//works with all variable declaration keywords. - let & const. Also for function statements and function expressions.
 
-//ERROR : Uncaught ReferenceError: Cannot access 'a' before initialization
-console.log(b);
-let b = 20;
+const parentFunction = () => {
+  console.log("parentFunction", x);
 
-//Will log undefined only when declared with var
-console.log(c);
-var c = 30;
+  const y = 2000;
+  const childFunction = () => {
+    console.log("childFunction", y);
 
-// Function expression vs function statements
-// Hoisting wont work like this.
-
-// ERROR :  ReferenceError: Cannot access 'myFunction' before initialization - Function expression
-myFunction();
-const myFunction1 = () => {
-  console.log("Hello world");
+    const z = 400000;
+    const grandChildFunction = () => {
+      console.log("grandChildFunction", x);
+      z;
+    };
+    grandChildFunction();
+  };
+  childFunction();
 };
+const x = 1000;
+parentFunction();
 
-//This will work.
-myFunction();
-function myFunction2() {
-  console.log("Hello world!");
-}
+//  Hierarchy    |   Lexical scope
+//  Parent      --> GLobal
+//  child       --> its own scope + parent's lexical env
+//  grandChild  --> its own scope + child(Its parent) lexical env.
+
+// Thats the reason the grandchild has access to variables outside its local scope. This is called scope chaining
+//When JSEngine does not find the reference to variable inside its scope it goes one level up i.e to its Lexical parent and this goes on until the reference is located.
+
+//Lexical environment - location of a function or a variable, where its physically present inside the code.
