@@ -1,59 +1,49 @@
-//Closures
-
-//works with all variable declaration keywords. - let & const. Also for function statements and function expressions.
-
-const parentFunction = () => {
-  console.log("parentFunction", x);
-
-  const y = 2000;
-  const childFunction = () => {
-    console.log("childFunction", y);
-
-    const z = 400000;
-    const grandChildFunction = () => {
-      console.log("grandChildFunction", x);
-      z;
-    };
-    grandChildFunction();
-  };
-  childFunction();
+//Simple synchronous operations
+const hello = () => {
+  console.log("hello 1");
 };
-const x = 1000;
-parentFunction();
-
-//  Hierarchy    |   Lexical scope
-//  Parent      --> GLobal
-//  child       --> its own scope + parent's lexical env
-//  grandChild  --> its own scope + child(Its parent) lexical env.
-
-// Thats the reason the grandchild has access to variables outside its local scope. This is called scope chaining
-//When JSEngine does not find the reference to variable inside its scope it goes one level up i.e to its Lexical parent and this goes on until the reference is located.
-
-//Lexical environment - location of a function or a variable, where its physically present inside the code.
-
-//CLOSURES : function + its lexical scope
-const xyz = () => {
-  console.log(name);
-  const abc = () => {
-    const pqr = () => {
-      const name = "chaitanya.................................";
-      console.log("name");
-    };
-    pqr();
-  };
-  abc();
+const namaste = () => {
+  console.log("Namaste 2");
+};
+const hola = () => {
+  console.log("Hola..... 3");
 };
 
-xyz();
+hello();
+namaste();
+hola();
+//*************************************************************************************************************** */
 
-///CUrrying
-const add = (a) => {
-  const b = (b) => {
-    const c = (c) => {
-      return a + b + c;
-    };
-    return c;
-  };
-  return b;
+//Call stack |  Job Queue (micro tasks) >Callback Queue (macro tasks)
+const one = () => console.log("one");
+const two = () => console.log("two"); //2nd
+const three = () => console.log("three");
+
+const ParentFunction = () => {
+  console.log("Hello world"); //go directly into call stack - 1st
+
+  //after the promises are resolved. Then browser api's will be pushed into the callback queue. One with the min time will be pushed into
+  //the call stack by the event loop.
+  setTimeout(one, 5000); //6th
+  setTimeout(three, 3000); //5th
+
+  new Promise((resolve, reject) => resolve("1st promise")).then(
+    (
+      resolve //priority will be given to promises (job queue) and also lexically. So this will execute 3rd
+    ) => console.log(resolve)
+  );
+  new Promise((resolve, reject) => resolve("2nd promise")).then(
+    (resolve) => console.log(resolve) //priority will be given to promises (job queue) and also lexically. So this will execute 4th
+  );
+
+  two(); //go directly into the call stack. will call and execute the two function
 };
-console.log(add(1)(2)(3));
+
+ParentFunction(); //will be executed first
+
+//                      Hello world
+// script.js:18          two
+// script.js:28        1st promise
+// script.js:31        2nd promise
+// script.js:19         three
+// script.js:17        one
