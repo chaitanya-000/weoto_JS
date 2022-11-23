@@ -1,32 +1,26 @@
-//Closures
+// let a = 1000;
 
-//works with all variable declaration keywords. - let & const. Also for function statements and function expressions.
+// console.log(a);
 
-const parentFunction = () => {
-  console.log("parentFunction", x);
+// var b = 2000;
 
-  const y = 2000;
-  const childFunction = () => {
-    console.log("childFunction", y);
+//  Time between variable is hoisted - variable is assigned
+//Temporal dead zone - Anything before line 3 is the temporal dead zone of a
 
-    const z = 400000;
-    const grandChildFunction = () => {
-      console.log("grandChildFunction", x);
-      z;
-    };
-    grandChildFunction();
-  };
-  childFunction();
+// var variable’s Temporal dead zone ends immediately after its hoisting—not when the variable gets fully initialized
+// with the value specified during its declaration. Just opposite  case with let and const
+
+//The scope of name inside the greet is within its block
+const name = "Mark";
+let greet = () => {
+  const name = "Tony";
+  console.log(name);
 };
-const x = 1000;
-parentFunction();
+greet();
 
-//  Hierarchy    |   Lexical scope
-//  Parent      --> GLobal
-//  child       --> its own scope + parent's lexical env
-//  grandChild  --> its own scope + child(Its parent) lexical env.
-
-// Thats the reason the grandchild has access to variables outside its local scope. This is called scope chaining
-//When JSEngine does not find the reference to variable inside its scope it goes one level up i.e to its Lexical parent and this goes on until the reference is located.
-
-//Lexical environment - location of a function or a variable, where its physically present inside the code.
+// but if we do this. The O/P will be 23 --> lexical environment
+const age = 23;
+const printAge = () => {
+  console.log(age);
+};
+greet();
