@@ -1,33 +1,66 @@
-let a = 1000;
+//  block and its use- wrapping multiple statements where JS expects a single statement
 
+const x = true;
+if (x) console.log("X is a truthy value");
+
+// What if I want greet () to run only if x is true =- { }
+
+//  let and const are blocked scope
+{
+  const a = 10;
+  let b = 12;
+  var c = 14;
+  console.log(a);
+  console.log(b);
+  console.log(c);
+}
+console.log(c);
 console.log(a);
+console.log(b);
 
-var b = 2000;
-
-//  Time between variable is hoisted - variable is assigned
-//Temporal dead zone - Anything before line 3 is the temporal dead zone of a
-
-// var variable’s Temporal dead zone ends immediately after its hoisting—not when the variable gets fully initialized
-// with the value specified during its declaration. Just opposite  case with let and const
-
-//0
-
-// let and const are also hoisted. But an exception will be thrown if a variable declared with let or const is read before it is initialised due to below reasons.
-
-// Unlike var, they are not initialised with a default value while hoisting.
-// They cannot be read/written until they have been fully initialised.
-
-//The scope of name inside the greet is within its block
-const name = "Mark";
-let greet = () => {
-  const name = "Tony";
-  console.log(name);
+const myFunc = () => {
+  console.log("hello", name, "!");
+  const name = "chaitanya";
 };
+myFunc();
+if (name == "chaitanya") console.log("Username = chaitanya");
+
+const greet = () => {
+  const printName = () => {
+    const name = "chaitanya";
+    console.log(name);
+  };
+  printName();
+  console.log(typeof name);
+};
+console.log(name);
 greet();
 
-// but if we do this. The O/P will be 23 --> lexical environment
-const age = 23;
-const printAge = () => {
-  console.log(age);
+const uno = 1;
+{
+  const uno = "one";
+  console.log(uno);
+}
+
+const parentFun = () => {
+  const fun1 = () => {
+    const name = 2;
+    alert(name);
+  };
+  const fun2 = () => {
+    const name = "";
+    console.log(name);
+    console.log(typeof name);
+  };
+  fun1();
+  fun2();
 };
-greet();
+parentFun();
+const a = 100;
+{
+  const a = 1000;
+  {
+    const a = 100000;
+    console.log(a);
+  }
+}
